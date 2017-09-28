@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="mturk.js"></script>
+</head>
+
+<body style>
+	<div style="width:650px; margin:0 auto; margin-top:50px; margin-bottom:50px;">
+
+		<form id="mturk_form">
+
+			<h1>Task Instructions:</h1>
+			<p style="font-size:125%;">Carefully inspect each image below, and count how many recognizable people are in each. <b>A "recognizable person" meets ALL of the following criteria:</b></p>
+			<ul style="font-size:125%;">
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<h2 style="color:red;">BONUS OPPORTUNITY:</h2>
+			<p style="font-size:125%;">If your answer for every image matches the majority of other Turkers' answers for it (meaning it is most likely accurate), you will receive a performance bonus of $1.00 for this HIT!</p>
+			<br>
+
+
+			<h1>Example #1 of 2</h1>
+			<br>
+			<img src="image0.jpg" alt="example1" width="624" height="auto">
+			<br>
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection as two people.)</li>
+			</ul>
+			<p style="color:red">There are 5 unique human beings with at least half their head in this image. The dog does not count as a person. Please enter the number "5" in the answer box below.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count0" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Example #2 of 2</h1>
+			<br>
+			<img src="image00.jpg" alt="example2" width="624" height="auto">
+			<br>
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection as two people.)</li>
+			</ul>
+			<p style="color:red">There is only 1 unique human being with at least half their head in this image. The mirror reflection does not count as a unique person. Please enter the number "1" in the answer box below.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count0" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #1 of 7</h1>
+			<img src="image1.jpg" alt="image1" width="624" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count1" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #2 of 7</h1>
+			<img src="image2.jpg" alt="image2" width="624" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count2" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #3 of 7</h1>
+			<img src="image3.jpg" alt="image3" width="590" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count3" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #4 of 7</h1>
+			<img src="image4.jpg" alt="image4" width="624" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count4" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #5 of 7</h1>
+			<img src="image5.png" alt="image5" width="528" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count5" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #6 of 7</h1>
+			<img src="image6.jpg" alt="image6" width="624" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count6" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Image #7 of 7</h1>
+			<img src="image7.jpg" alt="image7" width="600" height="auto">
+			<p>A "recognizable person" meets ALL of the following criteria:</p>
+			<ul>
+				<li><b>A human being,</b> NOT an animal or an object</li>
+				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
+				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
+			</ul>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" name="count7" style="border-color:red" required>
+			</label>
+			<br>
+			<br>
+			<br>
+
+
+			<h1>Thank you!</h1>
+			<p style="font-size:125%;">Was there anything unclear about the instructions?</p>
+			<textarea name="instructs" cols="100" rows="3" style="border-color:red" required></textarea>
+			<br>
+			<p style="font-size:125%;">How could we improve this HIT design for you in the future?</p>
+			<textarea name="improve" cols="100" rows="3" style="border-color:red" required></textarea>
+			<br>
+			<br>
+			<br>
+			<br>
+
+			<div style="text-align:center">  
+				<input type="submit" value="Submit" style="height:50px; width:100px; font-size:150%; border-color:red">  
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>
