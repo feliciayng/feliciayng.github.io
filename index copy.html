@@ -4,44 +4,51 @@
 
 <head>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="mturk.js"></script>
 	<script>
-		var form_selector = "#mturk_form";
+		var numclicks = 0;
 
-		// function for getting URL parameters
-		function gup(name) {
-		  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-		  var regexS = "[\\?&]"+name+"=([^&#]*)";
-		  var regex = new RegExp(regexS);
-		  var results = regex.exec(window.location.href);
-		  if(results == null)
-		    return "";
-		  else return unescape(results[1]);
+		$(document).ready(function() {
+			$("#image7").click(function() {
+
+				numclicks++;
+				console.log("i was clicked!");
+				$("#numberofpeople").text(numclicks);
+
+				var newdomelement = $("<div class='marker'></div>")
+				newdomelement.css("left", e.pageX-3 + "px");
+				newdomelement.css("top", e.pageY-3 + "px");
+				newdomelement.click(removeElementEvent);
+				$("body").append(newdomelement);
+
+				// add to history
+				addedelements.push(newdomelement);
+			})
+		})
+
+		$(document).keydown(function(e) {
+			keydowns++;
+			#("#numberkeydowns").val(keydowns);
+
+			console.log(e);
+
+			if (e.key="z" && e.ctrlKey) {
+				var elem2remove = addedelements.pop();
+				
+			}
 		}
-
-		//  Turkify the captioning page.
-		$(document).ready(function () {
-		  // is assigntmentId is a URL parameter
-		  if((aid = gup("assignmentId"))!="" && $(form_selector).length>0) {
-
-		    // If the HIT hasn't been accepted yet, disabled the form fields.
-		    if(aid == "ASSIGNMENT_ID_NOT_AVAILABLE") {
-			    $('input,textarea,select').attr("DISABLED", "disabled");
-		    }
-
-		    // Add a new hidden input element with name="assignmentId" that
-		    // with assignmentId as its value.
-		    var aid_input = $("<input type='hidden' name='assignmentId' value='" + aid + "'>").appendTo($(form_selector));
-
-		    // Make sure the submit form's method is POST
-		    $(form_selector).attr('method', 'POST');
-
-		    // Set the Action of the form to the provided "turkSubmitTo" field
-		    if((submit_url=gup("turkSubmitTo"))!="") {
-		      $(form_selector).attr('action', submit_url + '/mturk/externalSubmit');
-		    }
-		  }
-		});
 	</script>
+	<style>
+		.marker {
+			border: 2px solid red;
+			border-radius: 5px;
+			width: 2px;
+			height: 2px;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+		}
+	</style>
 </head>
 
 <body>
@@ -204,13 +211,14 @@
 
 
 			<h1>Image #7 of 7</h1>
-			<image src="image7.jpg" alt="image7" width="600" height="auto">
+			<image id="image7" src="image7.jpg" alt="image7" width="600" height="auto">
 				<p>A "recognizable person" meets ALL of the following criteria:</p>
 					<ul>
 						<li><b>A human being,</b> NOT an animal or an object</li>
 						<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 						<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 					</ul>
+				<p style="color:red">You selected <span id="numberofpeople">0</span> people.</p>
 			<label style="font-size:125%;">
 				<b>How many recognizable people are in this image?</b>
 				<input type="text" name="count7" style="border-color:red" required>
