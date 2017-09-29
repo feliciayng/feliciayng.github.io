@@ -3,51 +3,30 @@
 <html>
 
 <head>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="mturk.js"></script>
-	<script src="image0clicks.js"></script>
-	<script src="image00clicks.js"></script>
-	<script src="image1clicks.js"></script>
-	<script src="image2clicks.js"></script>
-	<script src="image3clicks.js"></script>
-	<script src="image4clicks.js"></script>
-	<script src="image5clicks.js"></script>
-	<script src="image6clicks.js"></script>
-	<script src="image7clicks.js"></script>
-	<style>
-	.marker {
-		border: 2px solid red;
-		border-radius: 5px;
-		width: 2px;
-		height: 2px;
-		position: absolute;
-		left: 0px;
-		top: 0px;
-	}
-	</style>
 </head>
 
-<body>
+<body style>
 	<div style="width:650px; margin:0 auto; margin-top:50px; margin-bottom:50px;">
 
 		<form id="mturk_form">
 
 			<h1>Task Instructions:</h1>
-			<p style="font-size:125%;">Count how many recognizable people are in each image below. To do this, select every recognizable person by clicking on their head. A small red dot will appear wherever you click, and the automatic counter will display how many people you have selected. To delete a red dot, click it again and the automatic counter will remove it.</p>
-			<p style="font-size:125%;"><b>A "recognizable person" meets ALL of the following criteria:</b></p>
+			<p style="font-size:125%;">Carefully inspect each image below, and count how many recognizable people are in each. <b>A "recognizable person" meets ALL of the following criteria:</b></p>
 			<ul style="font-size:125%;">
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
 			<h2 style="color:red;">BONUS OPPORTUNITY:</h2>
-			<p style="font-size:125%;">If your count for every image matches the majority of other Turkers' counts for it (meaning it is most likely accurate), you will receive a performance bonus of $1.00 for this HIT!</p>
+			<p style="font-size:125%;">If your answer for every image matches the majority of other Turkers' answers for it (meaning it is most likely accurate), you will receive a performance bonus of $1.00 for this HIT!</p>
 			<br>
 
 
 			<h1>Example #1 of 2</h1>
 			<br>
-			<img id="image0" src="image0.jpg" alt="example1" width="624" height="auto">
+			<img src="image0.jpg" alt="example1" width="624" height="auto">
 			<br>
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
@@ -55,8 +34,11 @@
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection as two people.)</li>
 			</ul>
-			<p style="color:red">There are 5 unique human beings with at least half their head in this image. The dog does not count as a person. Please click on each person's head until the automatic counter below says "You've selected 5 people."
-			<p style="font-size:125%;">You've selected <span id="image0count">0</span> people.</p>
+			<p style="color:red">There are 5 unique human beings with at least half their head in this image. The dog does not count as a person. Please enter the number "5" in the answer box below.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count0" name="count0" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
@@ -64,7 +46,7 @@
 
 			<h1>Example #2 of 2</h1>
 			<br>
-			<img id="image00" src="image00.jpg" alt="example2" width="624" height="auto">
+			<img src="image00.jpg" alt="example2" width="624" height="auto">
 			<br>
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
@@ -72,106 +54,130 @@
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection as two people.)</li>
 			</ul>
-			<p style="color:red">There is only 1 unique human being with at least half their head in this image. The mirror reflection does not count as a unique person. Please click on the person's head until the automatic counter below says "You've selected 1 people."</p>
-			<p style="font-size:125%;">You've selected <span id="image00count">0</span> people.</p>
+			<p style="color:red">There is only 1 unique human being with at least half their head in this image. The mirror reflection does not count as a unique person. Please enter the number "1" in the answer box below.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count00" name="count00" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #1 of 7</h1>
-			<img id="image1" src="image1.jpg" alt="image1" width="624" height="auto">
+			<img src="image1.jpg" alt="image1" width="624" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image1count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count1" name="count1" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #2 of 7</h1>
-			<img id="image2" src="image2.jpg" alt="image2" width="624" height="auto">
+			<img src="image2.jpg" alt="image2" width="624" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image2count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count2" name="count2" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #3 of 7</h1>
-			<img id="image3" src="image3.jpg" alt="image3" width="590" height="auto">
+			<img src="image3.jpg" alt="image3" width="590" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image3count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count3" name="count3" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #4 of 7</h1>
-			<img id="image4" src="image4.jpg" alt="image4" width="624" height="auto">
+			<img src="image4.jpg" alt="image4" width="624" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image4count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count4" name="count4" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #5 of 7</h1>
-			<img id="image5" src="image5.png" alt="image5" width="528" height="auto">
+			<img src="image5.png" alt="image5" width="528" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image5count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count5" name="count5" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #6 of 7</h1>
-			<img id="image6" src="image6.jpg" alt="image6" width="624" height="auto">
+			<img src="image6.jpg" alt="image6" width="624" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image6count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count6" name="count6" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
 
 
 			<h1>Image #7 of 7</h1>
-			<img id="image7" src="image7.jpg" alt="image7" width="600" height="auto">
+			<img src="image7.jpg" alt="image7" width="600" height="auto">
 			<p>A "recognizable person" meets ALL of the following criteria:</p>
 			<ul>
 				<li><b>A human being,</b> NOT an animal or an object</li>
 				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
 				<li><b>Only counted ONCE</b> (e.g., do NOT double count a person and their mirror reflection)</li>
 			</ul>
-			<p style="font-size:125%;">You've selected <span id="image7count">0</span> people.</p>
+			<label style="font-size:125%;">
+				<b>How many recognizable people are in this image?</b>
+				<input type="text" id="count7" name="count7" style="border-color:red" required>
+			</label>
 			<br>
 			<br>
 			<br>
@@ -188,16 +194,7 @@
 			<br>
 			<br>
 
-			<div style="text-align:center"> 
-				<input id="image0countfield" type="hidden" name="image0count">
-				<input id="image00countfield" type="hidden" name="image00count">
-				<input id="image1countfield" type="hidden" name="image1count">
-				<input id="image2countfield" type="hidden" name="image2count">
-				<input id="image3countfield" type="hidden" name="image3count">
-				<input id="image4countfield" type="hidden" name="image4count">
-				<input id="image5countfield" type="hidden" name="image5count">
-				<input id="image6countfield" type="hidden" name="image6count">
-				<input id="image7countfield" type="hidden" name="image7count"> 
+			<div style="text-align:center">  
 				<input type="submit" name="Submit" style="height:50px; width:100px; font-size:150%; border-color:red">  
 			</div>
 		</form>
