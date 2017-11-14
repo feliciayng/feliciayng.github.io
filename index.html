@@ -10,6 +10,7 @@
   <script src="mturk.js"></script>
 
   <script>
+
   var board = [
   [0, 0, 0, 1, 0, 0],
   [0, 0, 0, 0, 1, 1],
@@ -91,7 +92,7 @@
               if (shipx == gridcellx) {
                 alertAndEnd();
                 // STOP GAME. WHY ISN'T CLEARINTERVAL WORKING?????
-                // clearInterval(animateInterval);
+                clearInterval(animateInterval);
               }
             }
           }
@@ -126,6 +127,7 @@
       $("#mturk_form").submit();
     }
   });
+
 </script>
 
 <style>
