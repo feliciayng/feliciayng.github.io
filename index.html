@@ -1,217 +1,169 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
-	<title>Count the number of recognizable people in each image</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="mturk.js"></script>
-	<script src="image0clicks.js"></script>
-	<script src="image00clicks.js"></script>
-	<script src="image1clicks.js"></script>
-	<script src="image2clicks.js"></script>
-	<script src="image3clicks.js"></script>
-	<script src="image4clicks.js"></script>
-	<script src="image5clicks.js"></script>
-	<script src="image6clicks.js"></script>
-	<script src="image7clicks.js"></script>
-	<style>
-	.marker {
-		border: 2px solid red;
-		border-radius: 5px;
-		width: 2px;
-		height: 2px;
-		position: absolute;
-		left: 0px;
-		top: 0px;
-	}
-	</style>
+  <meta charset="utf-8">
+
+  <title>Rocketship Game</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="mturk.js"></script>
+
+  <script>
+  var board = [
+  [0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 1, 1],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0]
+  ];
+
+  var gridcellsize = 50;
+  var shipx = 0;
+  var lastOffset = 0;
+  var seconds = 0;
+  var reward = 0;
+
+  $(document).ready(function() {
+
+    // Create the gameboard
+    var gameboard = $("<div id='gameboard'></div>");
+    $(document.body).append(gameboard);
+
+    // Create the grid cells on the board. (piece = a grid cell)
+    for (i = 0; i < board.length-1; i++) {
+      for (j = 0; j < board[0].length; j++) {
+        var pieceid = "gridcell_" + i + "_" + j;
+        var piece = $("<div class='piece' id='NEWPIECE'></div>");
+        $('#NEWPIECE').attr('id', pieceid);
+        var piecey = i*gridcellsize;
+        var piecex = j*gridcellsize;
+        $(piece).css("top", piecey + "px");
+        $(piece).css("left", piecex + "px");
+        $(gameboard).append(piece);
+      }
+    }
+
+    // Create the ship that the user controls
+    var ship = $("<div class='ship'></div>");
+    $(gameboard).append(ship);
+
+    // Move the ship
+    $(document).keydown(function(e) {
+      if (e.keyCode == 37) {
+        // left arrow clicked
+        if (shipx == 0) {shipx = gridcellsize*(board[0].length-1);}
+        else {shipx -= gridcellsize;}
+      }
+      else if (e.keyCode == 39) {
+        // right arrow clicked
+        if (shipx == gridcellsize*(board[0].length-1)) {shipx = 0;} 
+        else {shipx += gridcellsize;}
+      }
+      $(".ship").css("left", shipx + "px");
+    });
+
+    // Automatically animate the board
+    lastOffset = Math.floor(((new Date().getTime())/ 1000.0) % board.length);
+    var animateInterval = setInterval(animate, 50);
+
+    function animate() {
+      var milliseconds = new Date().getTime();
+      var offset = Math.floor((milliseconds / 1000.0) % board.length);
+      
+      // update board position based on current time
+      for (i = 0; i < board.length-1; i++) {
+        for (j = 0; j < board[0].length; j++) {
+
+          var id = "gridcell_" + i + "_" + j;
+          var index = i - offset;
+          if (index < 0) {index = board.length + index;}
+
+          // change grid cell colors to match offset position
+          if (board[index][j] == 1) {
+            $('#' + id).css("background-color", "blue");
+             // check if ship crashed. if so, end and submit HIT.
+             // THIS IS NOT WORKING EXACTLY AS IT SHOULD!?!?!?!?!?!
+             if (i==board.length-2) {
+              var gridcellx = j*gridcellsize;
+              if (shipx == gridcellx) {
+                alertAndEnd();
+                // STOP GAME. WHY ISN'T CLEARINTERVAL WORKING?????
+                // clearInterval(animateInterval);
+              }
+            }
+          }
+          else {$('#' + id).css("background-color", "gray");}
+        }
+      }
+
+      // display number of seconds player has survived and calculated reward
+      var payCounter = $("<div id='payCounter' style='width:200px; height:150px; border-width:2px; border-style:solid; border-color:black; position:absolute; left:400px; top:50px; text-align:center; font-size: 200%;'></div>");
+      $("#payCounter").html("<p>" + seconds + " seconds" + "</p><p>" + "$" +reward.toFixed(3) + "</p>");
+      $(document.body).append(payCounter);
+
+      // update number of seconds player has survived and calculated reward
+      if (offset != lastOffset) {
+        seconds += 1; 
+        $("#seconds").text(seconds);
+        $("#seconds").val(seconds);
+        reward += 0.001;
+        $("#reward").text(reward.toFixed(3));
+        $("#reward").val(reward);
+      }
+      lastOffset = offset;
+
+      // end game once player has earned $2.00
+      if (reward >= 2.000) {alertAndEnd();}
+    }
+
+    // Whenever game ends, display a message (alert) to worker and then automatically submit their HIT.
+    function alertAndEnd() {
+      var finalReward = reward.toFixed(3);
+      alert("GAME OVER! You have earned $" + finalReward + ".");
+      $("#mturk_form").submit();
+    }
+  });
+</script>
+
+<style>
+#gameboard {
+  background-color: gray;
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+.piece {
+  background-color: gray;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.ship {
+  background-color: red;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 0px;
+  top: 250px;
+}
+</style>
+
 </head>
 
 <body>
-	<div style="width:650px; margin:0 auto; margin-top:50px; margin-bottom:50px;">
-		<form id="mturk_form">
-			<p style="font-size:125%; color:red"><b>Please remember to click "ACCEPT HIT" before completing this task.</b></p>
-			<h1>Task Instructions:</h1>
-			<p style="font-size:125%;">Mark each recognizable person in the images below by clicking on their head. A red dot will appear where you click, and an automatic counter below each image will show how many people you have marked in it.
-				<br>
-				<br>
-				To remove a mark, click on the red dot that you wish to remove. It will disappear from the screen, and the automatic counter will adjust to reflect this change.
-			</p>
-			<p style="font-size:125%;"><b>A "recognizable person" meets ALL of the following criteria:</b></p>
-			<ul style="font-size:125%;">
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<h2 style="color:red;">BONUS OPPORTUNITY:</h2>
-			<p style="font-size:125%;">If your count for every image matches the majority of other Turkers' counts for it (meaning it is most likely accurate), you will receive a performance bonus of $1.00 for this HIT!</p>
-			<br>
 
+  <form id="mturk_form">
+    <input id="seconds" type="hidden" name="seconds">
+    <input id="reward" type="hidden" name="reward">
+  </form>
 
-			<h1>Example #1 of 2</h1>
-			<br>
-			<img id="image0" src="image0.jpg" alt="example1" width="624" height="auto">
-			<br>
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> NOT an animal or an object</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (e.g., do NOT double count a person and their mirror reflection as two people.)</li>
-			</ul>
-			<p style="color:red">There are 5 unique humans with at least half their head in this image. The dog does not count as a person. Please click on each person's head until the automatic counter below says "You've marked 5 people."</p>
-			<p style="font-size:125%;">You've marked <span id="image0count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Example #2 of 2</h1>
-			<br>
-			<img id="image00" src="image00.jpg" alt="example2" width="624" height="auto">
-			<br>
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection as two people.)</li>
-			</ul>
-			<p style="color:red">There is only 1 unique human with at least half their head in this image. The mirror reflection does NOT count as a unique person. Please click on the person's head until the automatic counter below says "You've marked 1 people."</p>
-			<p style="font-size:125%;">You've marked <span id="image00count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #1 of 7</h1>
-			<img id="image1" src="image1.jpg" alt="image1" width="624" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image1count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #2 of 7</h1>
-			<img id="image2" src="image2.jpg" alt="image2" width="624" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image2count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #3 of 7</h1>
-			<img id="image3" src="image3.jpg" alt="image3" width="590" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image3count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #4 of 7</h1>
-			<img id="image4" src="image4.jpg" alt="image4" width="624" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image4count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #5 of 7</h1>
-			<img id="image5" src="image5.png" alt="image5" width="528" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image5count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #6 of 7</h1>
-			<img id="image6" src="image6.jpg" alt="image6" width="624" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image6count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<h1>Image #7 of 7</h1>
-			<img id="image7" src="image7.jpg" alt="image7" width="600" height="auto">
-			<p>A "recognizable person" meets ALL of the following criteria:</p>
-			<ul>
-				<li><b>A human</b> (NOT an animal or an object)</li>
-				<li><b>At least half of their head is in the image</b> (can be front OR back of head)</li>
-				<li><b>Unique</b> (do NOT double count a person and their mirror reflection)</li>
-			</ul>
-			<p style="color:red">Mark each recognizable person in the image above by clicking on their head.</p>
-			<p style="font-size:125%;">You've marked <span id="image7count">0</span> people.</p>
-			<br>
-			<br>
-			<br>
-
-
-			<div style="text-align:center"> 
-				<input id="image0countfield" type="hidden" name="image0count">
-				<input id="image00countfield" type="hidden" name="image00count">
-				<input id="image1countfield" type="hidden" name="image1count">
-				<input id="image2countfield" type="hidden" name="image2count">
-				<input id="image3countfield" type="hidden" name="image3count">
-				<input id="image4countfield" type="hidden" name="image4count">
-				<input id="image5countfield" type="hidden" name="image5count">
-				<input id="image6countfield" type="hidden" name="image6count">
-				<input id="image7countfield" type="hidden" name="image7count"> 
-				<h1 style="text-align:left">Thank you!</h1>
-				<p style="text-align:left; font-size:125%;">Was there anything unclear about the instructions?</p>
-				<textarea name="instructs" cols="100" rows="3" style="border-color:red" required></textarea>
-				<br>
-				<p style="text-align:left; font-size:125%;">How could we improve this HIT design for you in the future?</p>
-				<textarea name="improve" cols="100" rows="3" style="border-color:red" required></textarea>
-				<br>
-				<br>
-				<br>
-				<br>
-				<input type="submit" name="Submit" style="height:50px; width:100px; font-size:150%; border-color:red"> 
-			</div>
-		</form>
-	</div>
 </body>
 
 </html>
