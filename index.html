@@ -23,22 +23,28 @@
 
   var gridcellsize = 50;
   var shipx = 0;
+  var shipy = gridcellsize*(board.length-2);
   var lastOffset = 0;
   var seconds = 0;
   var reward = 0;
+  var gameOver = 0;
 
   $(document).ready(function() {
 
     // Create the gameboard
     var gameboard = $("<div id='gameboard'></div>");
+    gameboard.height(gridcellsize*(board.length-2));
+    gameboard.width(gridcellsize*(board[0].length-1));
     $(document.body).append(gameboard);
 
     // Create the grid cells on the board. (piece = a grid cell)
-    for (i = 0; i < board.length-1; i++) {
-      for (j = 0; j < board[0].length; j++) {
+    for (var i = 0; i < board.length-1; i++) {
+      for (var j = 0; j < board[0].length; j++) {
         var pieceid = "gridcell_" + i + "_" + j;
         var piece = $("<div class='piece' id='NEWPIECE'></div>");
         $('#NEWPIECE').attr('id', pieceid);
+        piece.height(gridcellsize);
+        piece.width(gridcellsize);
         var piecey = i*gridcellsize;
         var piecex = j*gridcellsize;
         $(piece).css("top", piecey + "px");
@@ -47,8 +53,11 @@
       }
     }
 
-    // Create the ship that the user controls
+    // Create the ship that player controls
     var ship = $("<div class='ship'></div>");
+    ship.height(gridcellsize);
+    ship.width(gridcellsize);
+    $(ship).css("top", (gridcellsize*(board.length-2)) + "px");
     $(gameboard).append(ship);
 
     // Move the ship
@@ -66,46 +75,40 @@
       $(".ship").css("left", shipx + "px");
     });
 
-    // Automatically animate the board
-    lastOffset = Math.floor(((new Date().getTime())/ 1000.0) % board.length);
-    var animateInterval = setInterval(animate, 50);
+  // Automatically refresh/animate the board every 50 ms
+  lastOffset = Math.floor(((new Date().getTime())/ 1000.0) % board.length);
+  setInterval(animate, 50);
 
-    function animate() {
+  function animate() {
+    if (gameOver == 0) {
       var milliseconds = new Date().getTime();
       var offset = Math.floor((milliseconds / 1000.0) % board.length);
-      
-      // update board position based on current time
-      for (i = 0; i < board.length-1; i++) {
-        for (j = 0; j < board[0].length; j++) {
+
+      // update all grid cells based on current time
+      for (var i = 0; i < board.length-1; i++) {
+        for (var j = 0; j < board[0].length; j++) {
 
           var id = "gridcell_" + i + "_" + j;
           var index = i - offset;
-          if (index < 0) {index = board.length + index;}
+          if (index < 0) {index += board.length;}
 
           // change grid cell colors to match offset position
           if (board[index][j] == 1) {
             $('#' + id).css("background-color", "blue");
-             // check if ship crashed. if so, end and submit HIT.
-             // THIS IS NOT WORKING EXACTLY AS IT SHOULD!?!?!?!?!?!
-             if (i==board.length-2) {
-              var gridcellx = j*gridcellsize;
-              if (shipx == gridcellx) {
-                alertAndEnd();
-                // STOP GAME. WHY ISN'T CLEARINTERVAL WORKING?????
-                clearInterval(animateInterval);
-              }
-            }
+            // check if ship crashed. if so, end and submit HIT.
+            if (shipy == i*gridcellsize && shipx == j*gridcellsize)
+              {alertAndEnd();}
           }
           else {$('#' + id).css("background-color", "gray");}
         }
       }
 
-      // display number of seconds player has survived and calculated reward
+      // display seconds player has survived and calculated reward
       var payCounter = $("<div id='payCounter' style='width:200px; height:150px; border-width:2px; border-style:solid; border-color:black; position:absolute; left:400px; top:50px; text-align:center; font-size: 200%;'></div>");
       $("#payCounter").html("<p>" + seconds + " seconds" + "</p><p>" + "$" +reward.toFixed(3) + "</p>");
       $(document.body).append(payCounter);
 
-      // update number of seconds player has survived and calculated reward
+      // update seconds player has survived and calculated reward
       if (offset != lastOffset) {
         seconds += 1; 
         $("#seconds").text(seconds);
@@ -119,29 +122,27 @@
       // end game once player has earned $2.00
       if (reward >= 2.000) {alertAndEnd();}
     }
+  }
 
-    // Whenever game ends, display a message (alert) to worker and then automatically submit their HIT.
-    function alertAndEnd() {
-      var finalReward = reward.toFixed(3);
-      alert("GAME OVER! You have earned $" + finalReward + ".");
-      $("#mturk_form").submit();
-    }
-  });
+  // When game ends, display alert and automatically submit HIT
+  function alertAndEnd() {
+    var finalReward = reward.toFixed(3);
+    alert("GAME OVER! You have earned $" + finalReward + ".");
+    gameOver =1; 
+    $("#mturk_form").submit();
+  }
+});
 
 </script>
 
 <style>
 #gameboard {
   background-color: gray;
-  width: 300px;
-  height: 300px;
   position: relative;
 }
 
 .piece {
   background-color: gray;
-  width: 50px;
-  height: 50px;
   position: absolute;
   left: 0px;
   top: 0px;
@@ -149,11 +150,8 @@
 
 .ship {
   background-color: red;
-  width: 50px;
-  height: 50px;
   position: absolute;
   left: 0px;
-  top: 250px;
 }
 </style>
 
