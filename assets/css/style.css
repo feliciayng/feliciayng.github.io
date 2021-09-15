@@ -365,6 +365,28 @@ h1, h2, h3, h4, h5, h6, .font-primary {
   background: #ef7f4d;
 }
 
+#blog .btn-get-started {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 8px 28px;
+  border-radius: 3px;
+  transition: 0.5s;
+  margin-top: 30px;
+  color: #fff;
+  background: #eb5d1e;
+}
+
+#blog .btn-get-started:hover {
+  background: #ef7f4d;
+}
+
+#comics {
+  background: #fef8f5;
+}
+
 #hero .animated {
   animation: up-down 2s ease-in-out infinite alternate-reverse both;
 }
@@ -524,6 +546,11 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
+
+.about {
+  background: #fef8f5;
+}
+
 .about h3 {
   font-weight: 700;
   font-size: 34px;
